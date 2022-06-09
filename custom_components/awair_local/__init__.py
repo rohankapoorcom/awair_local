@@ -13,7 +13,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN, UPDATE_INTERVAL
+from .const import API_TIMEOUT, DOMAIN, UPDATE_INTERVAL
 from .device import AwairDevice
 
 _LOGGER = logging.getLogger(__name__)
