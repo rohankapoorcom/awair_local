@@ -25,7 +25,7 @@ You will need your sensor's IP address / Hostname to set up the integration.
 Copy the `custom_components/awair_local` directory to your `custom_components` folder. Restart Home Assistant, and add the integration from the integrations page.
 
 # Contributing
-Contributions are welcome! Please open a Pull Request with your changes.
+Contributions are welcome! Please read the [Contribution guidelines](CONTRIBUTING.md) before opening a Pull Request.
 
 ***
 
