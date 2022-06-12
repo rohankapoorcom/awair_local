@@ -98,3 +98,11 @@ SENSOR_TYPES: tuple[AwairSensorEntityDescription, ...] = (
         unique_id_tag="score",  # matches legacy format
     ),
 )
+
+SENSOR_US_AQI = AwairSensorEntityDescription(
+    key=SensorDeviceClass.AQI,
+    icon="mdi:air-filter",
+    native_unit_of_measurement="AQI",
+    name="US Air Quality Index",
+    unique_id_tag="USAQI",  # matches legacy format
+)

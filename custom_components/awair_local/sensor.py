@@ -1,11 +1,12 @@
-from homeassistant.const import ATTR_ATTRIBUTION, ATTR_CONNECTIONS, ATTR_NAME
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.const import ATTR_ATTRIBUTION, ATTR_CONNECTIONS
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+import aqi
 
 from . import AwairDataUpdateCoordinator
 from .const import (
@@ -14,6 +15,13 @@ from .const import (
     DOMAIN,
     SENSOR_TYPES,
     AwairSensorEntityDescription,
+    API_CO2,
+    API_HUMID,
+    API_PM10,
+    API_PM25,
+    API_TEMP,
+    API_VOC,
+    SENSOR_US_AQI,
 )
 from .device import AwairDevice
 
@@ -36,6 +44,7 @@ async def async_setup_entry(
             if description.key in coordinator.data.keys()
         ]
     )
+    entities.extend([AwairSensor(coordinator.awair, coordinator, SENSOR_US_AQI)])
 
     async_add_entities(entities)
 
@@ -82,8 +91,8 @@ class AwairSensor(CoordinatorEntity[AwairDataUpdateCoordinator], SensorEntity):
                 # then we are available.
                 return True
 
-            # or we are API_SCORE
-            if sensor_type == API_SCORE:
+            # or we are derived values
+            if sensor_type in (API_SCORE, SensorDeviceClass.AQI):
                 # then we are available.
                 return True
 
@@ -92,15 +101,18 @@ class AwairSensor(CoordinatorEntity[AwairDataUpdateCoordinator], SensorEntity):
 
     @property
     def native_value(self) -> float | None:
-        """Return the state, rounding off to reasonable values."""
+        """Return the state."""
         if not self._air_data:
             return None
 
-        state: float
         sensor_type = self.entity_description.key
-        state = self._air_data[sensor_type]
-
-        return state
+        if sensor_type == SensorDeviceClass.AQI:
+            return aqi.to_iaqi(
+                aqi.constants.POLLUTANT_PM25,
+                self._air_data[API_PM25],
+                algo=aqi.ALGO_EPA,
+            )
+        return self._air_data[sensor_type]
 
     @property
     def extra_state_attributes(self) -> dict:
