@@ -6,6 +6,9 @@
 [![GitHub Activity][commits-shield]][commits]
 [![GitHub Last Commit][last-commit-shield]][commits]
 
+# No Longer Maintained
+Home Assistant 2022.9 [included support for the local API](https://github.com/home-assistant/core/pull/75535) in the default Awair component, rendering this one unnecessary.
+
 
 The Awair Local integration allows for pulling sensor data from an Awair Sensor that supports the [Local API](https://support.getawair.com/hc/en-us/articles/360049221014-Awair-Element-Local-API-Feature#h_01F40FK1R9A5GJ86Z3N6PGWCWS) into Home Assistant.
 
@@ -36,5 +39,5 @@ Contributions are welcome! Please read the [Contribution guidelines](CONTRIBUTIN
 [home-assistant]: https://home-assistant.io
 [issue]: https://github.com/rohankapoorcom/awair_local/issues
 [license-shield]: https://img.shields.io/github/license/rohankapoorcom/awair_local.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
+[maintenance-shield]: https://img.shields.io/maintenance/no/2022.svg
 [last-commit-shield]: https://img.shields.io/github/last-commit/rohankapoorcom/awair_local.svg
